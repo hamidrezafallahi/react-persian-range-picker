@@ -5,20 +5,22 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
-import moment from '../dateEngine';
-
 import { CalenderIcon } from '../assets/icons/CalenderIcon';
 import { DownTriangle } from '../assets/icons/DownTriangle';
 import { MenuArrowBack } from '../assets/icons/MenuArrowBack';
+import { formatIDateExport } from '../core/formatExport';
 import {
   getTimestamp,
   normalizeIDate,
   toPersianDigits,
 } from '../core/helper';
-import { formatIDateExport } from '../core/formatExport';
 import MainContent, { IMainContentProps } from '../core/mainContent';
 import NavigateButton from '../core/navigateButton';
-import type { IDate, TLocale } from '../core/type';
+import type {
+  IDate,
+  TLocale,
+} from '../core/type';
+import moment from '../dateEngine';
 import style from '../main.module.css';
 import { ESteps } from '../persianDatePicker/enum';
 import {
@@ -92,6 +94,11 @@ export function RangePicker(props: RangePickerProps) {
   const [open, setOpen] = useState<boolean>(isOpenDropdown);
   const [type, setType] = useState<string>("range");
   const [customData, setCustomData] = useState<unknown>(null);
+  const [submittedType, setSubmittedType] = useState<string>("range");
+  const customLabel =
+    submittedType !== "range"
+      ? additionalElement?.find((el) => el.key === submittedType)?.label
+      : undefined;
   const buttonRef = useRef<HTMLElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const fromTimestamp = getTimestamp(date!.from) ?? 0;
@@ -153,6 +160,7 @@ export function RangePicker(props: RangePickerProps) {
             onSubmit({ type, Data: { customData } });
           }
         }
+        setSubmittedType(type);
         setShowDate({
           date,
           compareDate,
@@ -188,6 +196,7 @@ export function RangePicker(props: RangePickerProps) {
           onSubmit({ type, Data: { customData } });
         }
       }
+      setSubmittedType(type);
       setShowDate({ date: date!, compareDate, Data: customData });
       setOpen?.(false);
     }
@@ -196,6 +205,7 @@ export function RangePicker(props: RangePickerProps) {
     setOpen?.(false);
     setDate?.(showDate?.date);
     setStep?.(366);
+    setType(submittedType);
     setCompareDate?.(showDate.compareDate);
     if (onReject) {
       onReject();
@@ -359,9 +369,13 @@ export function RangePicker(props: RangePickerProps) {
                   direction: "ltr",
                 }}
               >
-                {DateFrom}
-                {" _ "}
-                {DateTo}
+                {customLabel ?? (
+                  <>
+                    {DateFrom}
+                    {" _ "}
+                    {DateTo}
+                  </>
+                )}
               </div>
               <DownTriangle />
             </button>
@@ -482,20 +496,26 @@ export function RangePicker(props: RangePickerProps) {
             ${style.text_center}
           `}
             >
-              {DateFrom}
+              {customLabel ?? DateFrom}
             </div>
-            <div className={`${style.text_gray_gray8} ${style.text_center}`}>
-              {"-"}
-            </div>
-            <div
-              className={`
+            {customLabel === undefined && (
+              <>
+                <div
+                  className={`${style.text_gray_gray8} ${style.text_center}`}
+                >
+                  {"-"}
+                </div>
+                <div
+                  className={`
             ${style.w_fit}
             ${style.text_gray_gray8}
             ${style.text_center}
           `}
-            >
-              {DateTo}
-            </div>
+                >
+                  {DateTo}
+                </div>
+              </>
+            )}
           </button>
 
           {zone !== "manual" && isShowNavigationButton && (

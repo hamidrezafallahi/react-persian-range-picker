@@ -112,7 +112,7 @@ const MainContent = ({ ...props }: IMainContentProps) => {
       setCompareDate?.(null);
       setCounter?.(0);
       setStep?.(ESteps[key as keyof typeof ESteps]);
-      setZone?.(key);
+      setZone?.("manual");
       setStep?.(ESteps.custom);
       setCustomData(value);
       setType?.(key);
@@ -121,6 +121,8 @@ const MainContent = ({ ...props }: IMainContentProps) => {
         Data: value as Record<string, unknown>,
       });
     } else {
+      setType?.("range");
+      setCustomData(null);
       if (key === "manual") {
         onChange?.(value as HandleParams);
       } else {
