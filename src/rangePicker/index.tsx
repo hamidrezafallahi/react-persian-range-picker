@@ -366,14 +366,14 @@ export function RangePicker(props: RangePickerProps) {
                 className={`${style.px_2} ${style.w_fit} ${style.text_center}`}
                 style={{
                   color: tertiaryColor,
-                  direction: "ltr",
+                  direction: locale === "fa" ? "rtl" : "ltr",
                 }}
               >
                 {customLabel ?? (
                   <>
-                    {DateFrom}
+                    <bdi dir="ltr">{DateFrom}</bdi>
                     {" _ "}
-                    {DateTo}
+                    <bdi dir="ltr">{DateTo}</bdi>
                   </>
                 )}
               </div>
@@ -465,6 +465,7 @@ export function RangePicker(props: RangePickerProps) {
       ) : (
         <div className={`${style.flex} ${className}`}>
           <button
+            dir={locale === "fa" ? "rtl" : "ltr"}
             disabled={disabled}
             type="button"
             onClick={() => setOpen(true)}
