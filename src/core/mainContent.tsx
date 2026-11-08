@@ -9,6 +9,7 @@ import React, {
 import style from '../main.module.css';
 import { ESteps } from '../persianDatePicker/enum';
 import {
+  ActiveTable,
   AdditionalElementType,
   HandleParams,
   ITime,
@@ -49,7 +50,7 @@ export interface IMainContentProps {
   periodListClassName: string;
   tabClassName: string;
   setType?: Dispatch<SetStateAction<string>>;
-  activeTable?: "Day" | "Week" | "Month" | "Year" | "manual";
+  activeTable?:ActiveTable;
   monthPickerClassName?: string;
 }
 interface ITab {

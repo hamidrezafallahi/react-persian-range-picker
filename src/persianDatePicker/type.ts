@@ -61,6 +61,13 @@ export interface CalendarState {
 // =========================
 // Range Picker Props
 // =========================
+export type ActiveTable =
+  | "Day"
+  | "Week"
+  | "Month"
+  | "Year"
+  | "manual"
+  | (string & {});
 export interface RangePickerProps extends Omit<CalendarProps, "onChange"> {
   buttonStyle?: React.CSSProperties
   renderPosition?: { offset?: number, align?: PopupAlign, position?: PopupPosition }
@@ -103,7 +110,7 @@ export interface RangePickerProps extends Omit<CalendarProps, "onChange"> {
   highlightColor?: string;
 
   showComparison?: boolean;
-  activeTable?: "Day" | "Week" | "Month" | "Year" | "manual";
+  activeTable?:ActiveTable;
 }
 
 // =========================
