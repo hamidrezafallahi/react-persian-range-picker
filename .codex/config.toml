@@ -1,0 +1,7 @@
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 4
+
+# Default settings for subagents without their own model
+default_subagent_model = "gpt-6.2-sol"
+default_subagent_reasoning_effort = "medium"
